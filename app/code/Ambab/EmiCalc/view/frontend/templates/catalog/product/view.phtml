@@ -1,0 +1,53 @@
+<div id="information-mpdal" style="padding:20px">
+    <table border="1">
+        <tr>
+            <th>Bank Name</th>
+            <th>Months</th>
+            <th>Rate of Intrest</th>
+        </tr>
+        <tbody>
+            <tr>
+                <th>SBI</th>
+                <th>9</th>
+                <th>12.80%</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<?php if ($block->canShowBlock()): ?>
+    <a id="request-more" href="#">Emi strarts from $100</a>
+<?php endif; ?>
+
+
+<script>
+   require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function (
+            $,
+            modal
+        ) {
+            var modaloption = {
+                type: 'popup',
+                title:'Bank Emi Details',
+                responsive: false,
+                innerScroll: true,
+                clickableOverlay: true,
+                buttons: []
+        };
+        var popup = modal(modaloption, $('#information-mpdal'));
+        $("#request-more").on('click',function(){ 
+            $("#information-mpdal").modal("openModal");
+        });
+    }
+);
+</script>
+
+
+
+
