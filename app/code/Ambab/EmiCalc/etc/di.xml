@@ -1,24 +1,19 @@
 <?xml version="1.0"?>
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-	<virtualType name="AllbanksGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
-        <arguments>
-            <argument name="collection" xsi:type="object" shared="false">Ambab\EmiCalc\Model\ResourceModel\Banks\Collection</argument>
-        </arguments>
-    </virtualType>
-	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-        <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="banks_allbanks_listing_data_source" xsi:type="string">Ambab\EmiCalc\Model\ResourceModel\Banks\Grid\Collection</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Ambab\EmiCalc\Model\ResourceModel\Banks\Grid\Collection">
+    <preference for="Ambab\EmiCalc\Api\Data\GridInterface" type="Ambab\EmiCalc\Model\Grid" />
+
+    <virtualType name="Ambab\EmiCalc\Model\ResourceModel\Grid\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">bank_emi_details</argument>
-            <argument name="eventPrefix" xsi:type="string">ambab_emicalc_grid_collection</argument>
-            <argument name="eventObject" xsi:type="string">ambab_emicalc_collection</argument>
-            <argument name="resourceModel" xsi:type="string">Ambab\EmiCalc\Model\ResourceModel\Allbanks</argument>
+            <argument name="resourceModel" xsi:type="string">Ambab\EmiCalc\Model\ResourceModel\Grid</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="grid_record_grid_list_data_source" xsi:type="string">Ambab\EmiCalc\Model\ResourceModel\Grid\Grid\Collection</item>
+            </argument>
         </arguments>
     </type>
 </config>

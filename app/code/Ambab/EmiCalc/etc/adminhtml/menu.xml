@@ -9,7 +9,7 @@
         title="Add Bank Details" 
         module="Ambab_EmiCalc" 
         sortOrder="60"
-        action="addbankmenu/AddBanks/Banks" 
+        action="grid/grid/index" 
         resource="Ambab_EmiCalc::menu_item" parent="Ambab_EmiCalc::emicalc"/>
 
         <add id="Ambab_EmiCalc::emicalc_configuration" title="Configuration" 

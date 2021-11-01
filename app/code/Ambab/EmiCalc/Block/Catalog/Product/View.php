@@ -21,6 +21,7 @@ class View extends \Magento\Framework\View\Element\Template
      * @var \Ambab\EmiCalc\Helper\Data
    */
    protected $_dataHelper;
+   public $collection;
 
  /**
  * @param \Magento\Framework\View\Element\Template\Context $context
@@ -39,5 +40,10 @@ public function __construct(
 public function canShowBlock()
 {
     return $this->_dataHelper->isModuleEnabled();
+}
+
+public function getCollection()
+{
+    return $this->collection->create();
 }
 }

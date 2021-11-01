@@ -1,16 +1,16 @@
 <?php
 
-namespace Ambab\EmiCalc\Model\ResourceModel\Banks\Grid;
+namespace Ambab\EmiCalc\Model\ResourceModel\Grid\Grid;
 
 use Magento\Framework\Api\Search\SearchResultInterface;
 use Magento\Framework\Api\Search\AggregationInterface;
-use Ambab\EmiCalc\Model\ResourceModel\Banks\Collection as Allbanks;
+use Ambab\EmiCalc\Model\ResourceModel\Grid\Collection as AllCollection;
 
 /**
  * Class Collection
  * Collection for displaying grid
  */
-class Collection extends Allbanks implements SearchResultInterface
+class Collection extends AllCollection implements SearchResultInterface
 {
     /**
      * @var AggregationInterface
