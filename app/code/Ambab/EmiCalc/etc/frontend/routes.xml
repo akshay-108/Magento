@@ -10,6 +10,9 @@
         <route id="emicalc" frontName="emicalc">
             <module name="Ambab_EmiCalc" />
         </route>
+        <route id="buynow" frontName="buynow">
+            <module name="Ambab_EmiCalc"/>
+        </route>
     </router>
 </config>
     

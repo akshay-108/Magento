@@ -44,6 +44,6 @@ public function canShowBlock()
 
 public function getCollection()
 {
-    return $this->collection->create();
+    // return $this->collection->create();
 }
 }

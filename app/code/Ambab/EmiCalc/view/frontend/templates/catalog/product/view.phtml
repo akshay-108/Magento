@@ -1,21 +1,44 @@
-
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $model=$objectManager->create('Ambab\EmiCalc\Model\Grid');
+    $datacollection=$model->getCollection();
+?>
 <div id="information-mpdal" style="padding:20px">
-    <table border="1">
+    <table class="table bg-dark text-white">
+    <thead>
         <tr>
-            <th>Bank Name</th>
-            <th>Months</th>
-            <th>Rate of Intrest</th>
+        <th scope="col">ID</th>
+        <th scope="col">Bank Name</th>
+        <th scope="col">Emi Plan</th>
+        <th scope="col">Rate Of Intrest</th>
         </tr>
-        <tbody>
-            <tr>
-                <th>SBI</th>
-                <th>9</th>
-                <th>12.80%</th>
-            </tr>
-        </tbody>
+    </thead>
+    <tbody>
+        <?php 
+            foreach($datacollection as $data)
+            {
+        ?>
+        <tr>
+            <td>
+                <?php echo $data->getEntityId(); ?>
+            </td>
+            <td>
+                <?php echo $data->getName(); ?>
+            </td>
+            <td>
+                <?php echo $data->getEmi(); ?>
+            </td>
+            <td>
+                <?php echo $data->getRoi(); ?>
+            </td>
+            
+        </tr>
+        <?php
+            }
+            ?>
+    </tbody>
     </table>
 </div>
-
 
 
 <?php if ($block->canShowBlock()): ?>
@@ -50,6 +73,8 @@
     }
 );
 </script>
+
+
 
 
 

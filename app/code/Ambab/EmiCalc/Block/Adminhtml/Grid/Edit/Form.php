@@ -54,7 +54,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'base_fieldset',
                 ['legend' => __('Edit Row Data'), 'class' => 'fieldset-wide']
             );
-            $fieldset->addField('entity_id', 'hidden', ['name' => 'entity_id']);
+            $fieldset->addField('id', 'hidden', ['name' => 'id']);
         } else {
             $fieldset = $form->addFieldset(
                 'base_fieldset',

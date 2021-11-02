@@ -13,7 +13,7 @@ interface GridInterface
     /**
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
-    const ENTITY_ID = 'entity_id';
+    const ENTITY_ID = 'id';
     // const ID = 'id';
     const Name = 'Bank_Name';
     const Emi = 'Emi_Plan';
@@ -29,14 +29,7 @@ interface GridInterface
     /**
      * Set EntityId.
      */
-    public function setEntityId($entityId);
-
-    public function getID();
-
-    /**
-     * Set EntityId.
-     */
-    public function setID($ID);
+    public function setEntityId($id);
     /**
      * Get Title.
      *

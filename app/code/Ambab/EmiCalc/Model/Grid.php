@@ -43,9 +43,9 @@ class Grid extends \Magento\Framework\Model\AbstractModel implements GridInterfa
     /**
      * Set EntityId.
      */
-    public function setEntityId($entityId)
+    public function setEntityId($id)
     {
-        return $this->setData(self::ENTITY_ID, $entityId);
+        return $this->setData(self::ENTITY_ID, $id);
     }
 
     /**

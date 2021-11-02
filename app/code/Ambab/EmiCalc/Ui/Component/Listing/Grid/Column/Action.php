@@ -53,11 +53,11 @@ class Action extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
-                if (isset($item['entity_id'])) {
+                if (isset($item['id'])) {
                     $item[$name]['edit'] = [
                         'href' => $this->_urlBuilder->getUrl(
                             $this->_editUrl, 
-                            ['entity_id' => $item['entity_id']]
+                            ['id' => $item['id']]
                         ),
                         'label' => __('Edit'),
                     ];
