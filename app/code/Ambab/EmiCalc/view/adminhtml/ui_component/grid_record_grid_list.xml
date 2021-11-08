@@ -139,7 +139,7 @@
                </item>
            </argument>
        </column>
-       <column name="Intrest(pa)">
+       <column name="Intrest">
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">textRange</item>

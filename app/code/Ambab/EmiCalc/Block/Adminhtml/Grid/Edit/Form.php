@@ -87,12 +87,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         );
         $fieldset->addField(
-            'Intrest(pa)',
+            'Intrest',
             'text',
             [
-                'name' => 'Intrest(pa)',
+                'name' => 'Intrest',
                 'label' => __('Intrest Per Annum'),
-                'id' => 'Intrest(pa)',
+                'id' => 'Intrest',
                 'title' => __('Intrest'),
                 'class' => 'validate-number',
                 'required' => true,

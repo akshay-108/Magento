@@ -30,14 +30,8 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface{
                                 ['nullbale'=>false]
                                 )
                             ->addColumn(
-                                'Intrest(pa)',
-                                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                                '2M',
-                                ['nullbale'=>false]
-                                )
-                            ->addColumn(
-                                'Total_Cost',
-                                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                                'Intrest',
+                                \Magento\Framework\DB\Ddl\Table::TYPE_FLOAT,
                                 '2M',
                                 ['nullbale'=>false]
                                 )

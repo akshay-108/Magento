@@ -2,77 +2,168 @@
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     $model=$objectManager->create('Ambab\EmiCalc\Model\Grid');
     $datacollection=$model->getCollection();
+
+    // get product price
+    $objectManager1 = \Magento\Framework\App\ObjectManager::getInstance();
+    $product = $objectManager1->get('Magento\Framework\Registry')->registry('current_product');    
+    $productprice=$product->getPrice();
+    // created block file 
+    $blockObj= $block->getLayout()->createBlock('Ambab\EmiCalc\Block\Catalog\Product\EmiPrice');
+    $emiamtarray=[];
+    
 ?>
 <div id="information-mpdal" style="padding:20px">
-    <table class="table bg-dark text-white">
-    <thead>
-        <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Bank Name</th>
-        <th scope="col">Emi Plan</th>
-        <th scope="col">Rate Of Intrest</th>
-        </tr>
-    </thead>
-    <tbody>
+
+    <div id="element" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
         <?php 
-            foreach($datacollection as $data)
-            {
+            $record = $blockObj->getSbiData();
         ?>
-        <tr>
-            <td>
-                <?php echo $data->getEntityId(); ?>
-            </td>
-            <td>
-                <?php echo $data->getName(); ?>
-            </td>
-            <td>
-                <?php echo $data->getEmi(); ?>
-            </td>
-            <td>
-                <?php echo $data->getRoi(); ?>
-            </td>
-            
-        </tr>
-        <?php
-            }
-            ?>
-    </tbody>
-    </table>
+        <div data-role="collapsible">
+            <div data-role="trigger">
+                <span>State Bank Of India</span>
+            </div>
+        </div>
+        <div data-role="content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Emi Plan</th>
+                        <th>ROI</th>
+                        <th>Intrest(pa)</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <?php
+                    foreach($record as $data)
+                    {
+                        $months=$data['Emi_Plan'];
+                        $roi=$data['Intrest'];
+                        $finalroi=$roi/(12*100);
+                        $emiamt=$blockObj->Emicalculation($productprice,$finalroi,$months);
+
+                        array_push($emiamtarray,$emiamt);
+
+                        $intrestamt=$emiamt*$months;
+                        $intrestamt=$intrestamt-$productprice;
+                ?>
+                <tbody>
+                    <tr>
+                        <td><?php echo round($emiamt).' x '.$months.' Months'; ?></td>
+                        <td><?php echo $data['Intrest'].'%'; ?></td>
+                        <td><?php echo ceil($intrestamt).'$'; ?></td>
+                        <td><?php echo round($productprice); ?></td>
+                    </tr>
+                </tbody>
+                <?php   
+                    }
+                    $emismallamt=$blockObj->getSmallValue($emiamtarray);
+                ?>
+            </table>
+        </div>
+
+        
+
+        <?php 
+            $record = $blockObj->getHdfcData();
+        ?>
+        <div data-role="collapsible">
+            <div data-role="trigger">
+                <span>HDFC</span>
+            </div>
+        </div>
+        <div data-role="content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Emi Plan</th>
+                        <th>ROI</th>
+                        <th>Intrest(pa)</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <?php
+                    foreach($record as $data)
+                    {
+                        $months=$data['Emi_Plan'];
+                        $roi=$data['Intrest'];
+                        $finalroi=$roi/(12*100);
+                        $emiamt=$blockObj->Emicalculation($productprice,$finalroi,$months);
+                        
+                        $intrestamt=$emiamt*$months;
+                        $intrestamt=$intrestamt-$productprice;
+                ?>
+                <tbody>
+                    <tr>
+                    <tr>
+                        <td><?php echo round($emiamt).' x '.$months.' Months'; ?></td>
+                        <td><?php echo $data['Intrest'].'%'; ?></td>
+                        <td><?php echo ceil($intrestamt).'$'; ?></td>
+                        <td><?php echo round($productprice); ?></td>
+                    </tr>
+                    </tr>
+                </tbody>
+                <?php   
+                    }
+                ?>
+            </table>
+        </div>
+
+
+        <?php 
+            $record = $blockObj->getCitibankData();
+        ?>
+        <div data-role="collapsible">
+            <div data-role="trigger">
+                <span>CitiBank</span>
+            </div>
+        </div>
+        <div data-role="content">
+            <table>
+                <thead>
+                    <tr>
+                    <th>Emi Plan</th>
+                        <th>ROI</th>
+                        <th>Intrest(pa)</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <?php
+                    foreach($record as $data)
+                    {
+                        $months=$data['Emi_Plan'];
+                        $roi=$data['Intrest'];
+                        $finalroi=$roi/(12*100);
+                        $emiamt=$blockObj->Emicalculation($productprice,$finalroi,$months);
+
+                        $intrestamt=$emiamt*$months;
+                        $intrestamt=$intrestamt-$productprice;
+                ?>
+                <tbody>
+                    <tr>
+                        <td><?php echo round($emiamt).' x '.$months.' Months'; ?></td>
+                        <td><?php echo $data['Intrest'].'%'; ?></td>
+                        <td><?php echo ceil($intrestamt).'$'; ?></td>
+                        <td><?php echo round($productprice); ?></td>
+                    </tr>
+                </tbody>
+                <?php   
+                    }
+                ?>
+            </table>
+        </div>
+
+
+
+    </div>
+
 </div>
 
 
 <?php if ($block->canShowBlock()): ?>
 
-    <a id="request-more" href="#">Emi strarts from $100</a>
+    <a id="request-more" href="#">Emi strarts from <?php echo $emismallamt; ?></a>
 
 <?php endif; ?>
-
-
-<script>
-   require(
-        [
-            'jquery',
-            'Magento_Ui/js/modal/modal'
-        ],
-        function (
-            $,
-            modal
-        ) {
-            var modaloption = {
-                type: 'popup',
-                title:'Bank Emi Details',
-                responsive: true,
-                innerScroll: true,
-                clickableOverlay: true,
-                buttons: []
-        };
-        var popup = modal(modaloption, $('#information-mpdal'));
-        $("#request-more").on('click',function(){ 
-            $("#information-mpdal").modal("openModal");
-        });
-    }
-);
-</script>
 
 
 

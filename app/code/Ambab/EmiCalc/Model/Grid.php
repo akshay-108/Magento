@@ -95,6 +95,8 @@ class Grid extends \Magento\Framework\Model\AbstractModel implements GridInterfa
      */
     public function setRoi($Roi)
     {
-        return $this->setData(self::Roi, $Intrest(pa));
+        return $this->setData(self::Roi, $Intrest);
     }
+
+    
 }

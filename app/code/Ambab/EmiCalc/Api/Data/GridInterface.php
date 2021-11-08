@@ -17,7 +17,7 @@ interface GridInterface
     // const ID = 'id';
     const Name = 'Bank_Name';
     const Emi = 'Emi_Plan';
-    const Roi = 'Intrest(pa)';
+    const Roi = 'Intrest';
 
     /**
      * Get EntityId.
