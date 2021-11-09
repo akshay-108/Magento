@@ -1,30 +1,33 @@
 <?php 
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $model=$objectManager->create('Ambab\EmiCalc\Model\Grid');
-    $datacollection=$model->getCollection();
+    // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    // $model=$objectManager->create('Ambab\EmiCalc\Model\Grid');
+    // $datacollection=$model->getCollection();
 
     // get product price
-    $objectManager1 = \Magento\Framework\App\ObjectManager::getInstance();
-    $product = $objectManager1->get('Magento\Framework\Registry')->registry('current_product');    
-    $productprice=$product->getPrice();
-    // created block file 
-    $blockObj= $block->getLayout()->createBlock('Ambab\EmiCalc\Block\Catalog\Product\EmiPrice');
-    $emiamtarray=[];
-    
-?>
-<div id="information-mpdal" style="padding:20px">
+    // $objectManager1 = \Magento\Framework\App\ObjectManager::getInstance();
+    // $product = $objectManager1->get('Magento\Framework\Registry')->registry('current_product');    
+    // $productprice=$product->getPrice();
 
-    <div id="element" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
+    // created block file (get product price)
+    $blockObj= $block->getLayout()->createBlock('Ambab\EmiCalc\Block\Catalog\Product\EmiPrice');
+    $productprice= $blockObj->getProductPrice();
+    $emiamtarray=[];
+    ?>
+
+<div id="information-mpdal" class="modal">
+    <div id="element" class="accordiondata" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
         <?php 
-            $record = $blockObj->getSbiData();
+            $bankname=$blockObj->getBankName();
+            foreach ($bankname as $namedata) { 
+                $name = $namedata['Bank_Name'];
         ?>
-        <div data-role="collapsible">
-            <div data-role="trigger">
-                <span>State Bank Of India</span>
+        <div data-role="collapsible" class="accordionheader">
+            <div data-role="trigger" class="titlediv">
+                <h4 class="titleheader"><?php echo $name; ?></h4>
             </div>
         </div>
-        <div data-role="content">
-            <table>
+        <div data-role="content" class="contentdiv">
+            <table class="table tablecontent">
                 <thead>
                     <tr>
                         <th>Emi Plan</th>
@@ -34,7 +37,8 @@
                     </tr>
                 </thead>
                 <?php
-                    foreach($record as $data)
+                    $bankdata=$blockObj->getBankDetails($name);
+                    foreach($bankdata as $data)
                     {
                         $months=$data['Emi_Plan'];
                         $roi=$data['Intrest'];
@@ -60,108 +64,16 @@
                 ?>
             </table>
         </div>
-
-        
-
-        <?php 
-            $record = $blockObj->getHdfcData();
+        <?php   
+            }
         ?>
-        <div data-role="collapsible">
-            <div data-role="trigger">
-                <span>HDFC</span>
-            </div>
-        </div>
-        <div data-role="content">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Emi Plan</th>
-                        <th>ROI</th>
-                        <th>Intrest(pa)</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <?php
-                    foreach($record as $data)
-                    {
-                        $months=$data['Emi_Plan'];
-                        $roi=$data['Intrest'];
-                        $finalroi=$roi/(12*100);
-                        $emiamt=$blockObj->Emicalculation($productprice,$finalroi,$months);
-                        
-                        $intrestamt=$emiamt*$months;
-                        $intrestamt=$intrestamt-$productprice;
-                ?>
-                <tbody>
-                    <tr>
-                    <tr>
-                        <td><?php echo round($emiamt).' x '.$months.' Months'; ?></td>
-                        <td><?php echo $data['Intrest'].'%'; ?></td>
-                        <td><?php echo ceil($intrestamt).'$'; ?></td>
-                        <td><?php echo round($productprice); ?></td>
-                    </tr>
-                    </tr>
-                </tbody>
-                <?php   
-                    }
-                ?>
-            </table>
-        </div>
-
-
-        <?php 
-            $record = $blockObj->getCitibankData();
-        ?>
-        <div data-role="collapsible">
-            <div data-role="trigger">
-                <span>CitiBank</span>
-            </div>
-        </div>
-        <div data-role="content">
-            <table>
-                <thead>
-                    <tr>
-                    <th>Emi Plan</th>
-                        <th>ROI</th>
-                        <th>Intrest(pa)</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <?php
-                    foreach($record as $data)
-                    {
-                        $months=$data['Emi_Plan'];
-                        $roi=$data['Intrest'];
-                        $finalroi=$roi/(12*100);
-                        $emiamt=$blockObj->Emicalculation($productprice,$finalroi,$months);
-
-                        $intrestamt=$emiamt*$months;
-                        $intrestamt=$intrestamt-$productprice;
-                ?>
-                <tbody>
-                    <tr>
-                        <td><?php echo round($emiamt).' x '.$months.' Months'; ?></td>
-                        <td><?php echo $data['Intrest'].'%'; ?></td>
-                        <td><?php echo ceil($intrestamt).'$'; ?></td>
-                        <td><?php echo round($productprice); ?></td>
-                    </tr>
-                </tbody>
-                <?php   
-                    }
-                ?>
-            </table>
-        </div>
-
-
-
     </div>
-
 </div>
 
 
 <?php if ($block->canShowBlock()): ?>
 
-    <a id="request-more" href="#">Emi strarts from <?php echo $emismallamt; ?></a>
+    <a id="request-more" href="#">Emi strarts from <?php echo round($emismallamt).'$'; ?></a>
 
 <?php endif; ?>
 

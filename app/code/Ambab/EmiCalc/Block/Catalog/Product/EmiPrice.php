@@ -8,45 +8,42 @@ use Magento\Framework\App\ResourceConnection;
 class EmiPrice extends Template
 {
     private $resourceConnection;
+    protected $registry;
+    protected $priceHelper;
 
-    public function __construct(ResourceConnection $resourceConnection) 
+    public function __construct(ResourceConnection $resourceConnection,
+    \Magento\Framework\View\Element\Template\Context $context,
+    \Magento\Framework\Registry $registry,
+    \Magento\Framework\Pricing\Helper\Data $priceHelper,
+    array $data = []) 
     {
         $this->resourceConnection = $resourceConnection;
+        $this->registry = $registry;
+        $this->priceHelper = $priceHelper;
+        parent::__construct($context, $data);
     }
-    public function getSbiData()
+    // get product price
+    public function getProductPrice()
     {
-        $tableName = $this->resourceConnection->getTableName('bank_emi_details');
-        $connection = $this->resourceConnection->getConnection();
-        // $bankname = 'SBI';
-        // $select = $connection->select()
-        //     ->from(
-        //         ['c' => $tableName],
-        //         ['*']
-        //     )->where(
-        //         "c.Bank_Name = bankname"
-        //     );
-
-        // get bank data
-        $query="SELECT * FROM $tableName WHERE Bank_Name='SBI'";
-        return $sbirecords = $connection->fetchAll($query);
+        $product = $this->registry->registry('current_product');
+        return $product->getFinalPrice();
     }
-    public function getHdfcData()
+
+    public function getBankName()
     {
         $tableName = $this->resourceConnection->getTableName('bank_emi_details');
         $connection = $this->resourceConnection->getConnection();
 
-        $query="SELECT * FROM $tableName WHERE Bank_Name='HDFC'";
-        return $hdfcrecords = $connection->fetchAll($query);
-
+        $query="select DISTINCT Bank_Name from $tableName";
+        return $rec = $connection->fetchAll($query);
     }
-    public function getCitibankData()
+    public function getBankDetails($name)
     {
         $tableName = $this->resourceConnection->getTableName('bank_emi_details');
         $connection = $this->resourceConnection->getConnection();
-
-        $query="SELECT * FROM $tableName WHERE Bank_Name='Citibank'";
-        return $citibankrecords = $connection->fetchAll($query);
-
+        $query="select * from $tableName where Bank_Name = '$name'";
+        return $rec = $connection->fetchAll($query);
+        // exit();
     }
     public function Emicalculation($productprice,$finalroi,$months)
     {
@@ -62,13 +59,7 @@ class EmiPrice extends Template
 
     public function getSmallValue($emiamtarray)
     {
-        // print_r($emiamtarray);
-
+        
         return $smallamt=min($emiamtarray);
-
-        // for($i=0; $i<$length;$i++)
-        // {
-        //     $emiamt=$length[$i];
-        // }
     }
 }
