@@ -1,0 +1,68 @@
+<?php
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+$_product = $block->getProduct();
+$blockObj = $block->getLayout()->createBlock('Ambab\EmiCalc\Block\Catalog\Product\MinimumCartPrice');
+$productStock = $blockObj->getStockItem($_product->getId());
+$quantity = $productStock->getQty();
+
+// get product sku
+$sku = $_product->getSku();
+if($sku == 'simple')
+{
+    $quantity = $blockObj->getProductSalableQty($sku);
+}
+
+
+// $CurrentProduct = $blockObj->getCurrentProduct();
+
+if (!$_product instanceof \Magento\Catalog\Model\Product) {
+    return;
+}
+
+$_call = $block->getAtCall();
+$_code = $block->getAtCode();
+$_className = $block->getCssClass();
+$_attributeLabel = $block->getAtLabel();
+$_attributeType = $block->getAtType();
+$_attributeAddAttribute = $block->getAddAttribute();
+
+$renderLabel = true;
+// if defined as 'none' in layout, do not render
+if ($_attributeLabel == 'none') {
+    $renderLabel = false;
+}
+
+if ($_attributeLabel && $_attributeLabel == 'default') {
+    $_attributeLabel = $_product->getResource()->getAttribute($_code)->getStoreLabel();
+}
+if ($_attributeType && $_attributeType == 'text') {
+    $_attributeValue = ($_helper->productAttribute($_product, $_product->$_call(), $_code))
+        ? $_product->getAttributeText($_code)
+        : '';
+} else {
+    $_attributeValue = $_helper->productAttribute($_product, $_product->$_call(), $_code);
+}
+?>
+
+
+<?php if ($_attributeValue) :?>
+    <div class="product attribute <?= $block->escapeHtmlAttr($_className) ?>">
+
+        <?php if ($renderLabel) :?>
+            <strong class="type"><?= $block->escapeHtml($_attributeLabel) ?></strong>
+        <?php endif; ?>
+
+        <div class="value" <?= /* @noEscape / $_attributeAddAttribute ?>><?= / @noEscape */ $_attributeValue ?>></div><br>
+        
+        <strong style="color:red;"><?php echo $quantity.' left' ?></strong>
+        <br>
+    
+        <?php if($_product->gethot()) : ?>
+            <strong class="listing-attr">This is hot product</strong>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+   
+
+    
+   

@@ -1,0 +1,23 @@
+.disable-regular-price {
+    text-decoration: line-through;
+}
+
+.add-wishlist {
+    position: absolute;
+    top: 261px;
+    right: 570px;
+    z-index: 9;
+    color: rgb(219, 41, 10);
+}
+
+.discount-product{
+    background-color: #FFE77AFF;
+    color: green;
+    font-size: 19px;
+    padding: 10px;
+}
+.listing-attr{
+    color: red;
+    font-size: 19px;
+    content: "\1F525";
+}

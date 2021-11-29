@@ -1,0 +1,104 @@
+<?php 
+    // created block file (get product price)
+    $blockObj= $block->getLayout()->createBlock('Ambab\EmiCalc\Block\Catalog\Product\EmiPrice');
+    $productprice= $blockObj->getProductPrice();
+    // all emi amt stored in array
+    $getsmallemiamt=[];
+    $data = $blockObj->getAjaxData();
+
+
+?>
+<div id="show"></div>
+<div id="information-mpdal" class="modal information-mpdal">
+    <div id="element" class="collapsibleContainer" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
+        <?php 
+            // get bank name
+            $bankname=$blockObj->getBankName();
+            foreach ($bankname as $namedata) { 
+                $name = $namedata['Bank_Name'];
+        ?>
+        <div data-role="collapsible" class="collapsibleTab">
+            <div data-role="trigger" class="titlediv">
+                <p class="titleheader"><?php echo $name; ?></p>
+            </div>
+        </div>
+        <div data-role="content" class="collapsibleContent">
+            <table class="table tablecontent">
+                <thead>
+                    <tr>
+                        <th>Emi Plan</th>
+                        <th>ROI</th>
+                        <th>Intrest(pa)</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <?php
+                    $bankdata=$blockObj->getBankDetails($name);
+                    foreach($bankdata as $data)
+                    {
+                        // get emi amt, intrest amt, total cost
+                       $emiamtarray=$blockObj->Emicalculation($productprice,$data['Emi_Plan'],$data['Intrest']);
+
+                        // store all bank emi amount   
+                       array_push($getsmallemiamt,$emiamtarray[0]);
+                ?>
+                <tbody>
+                    <tr>
+                        <td><?php echo round($emiamtarray[0]).' Rs'.' x '.$data['Emi_Plan'].' Months'; ?></td>
+                        <td><?php echo $data['Intrest'].'%'; ?></td>
+                        <td><?php echo ceil($emiamtarray[2]).' Rs'; ?></td>
+                        <td><?php echo round($emiamtarray[1]).' Rs'; ?></td>
+                    </tr>
+                </tbody>
+                <?php   
+                    }
+                    // get min value of emi amt
+                    $emismallamt=$blockObj->getSmallValue($getsmallemiamt);
+                ?>
+            </table>
+        </div>
+        <?php   
+            }
+        ?>
+    </div>
+</div>
+
+<!-- show lowest emi amount -->
+<?php if ($block->canShowBlock()): ?>
+
+    <a id="request-more" href="#">Emi strarts from <?php echo round($emismallamt).' Rs'; ?></a>
+<?php endif; ?>
+
+<script>
+     require(
+        [
+            'jquery'
+        ],
+        function (
+            $
+        ) {
+            $('body').on('click', '#information-mpdal', function () {
+ 
+                // var self = $(this);
+                var url = "<?php echo $block->getUrl() . 'emicalc/Index/Index' ?>";
+                console.log(url);
+                try {
+ 
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        dataType: 'json',
+                        showLoader: true,
+                        success: function (data) {
+                            console.log(data);
+                            // $("#show").html(data['getBank']);  
+                        }
+                    });
+                } catch (e) {
+                }
+ 
+            });
+        });
+</script>
+
+

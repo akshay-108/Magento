@@ -1,0 +1,62 @@
+<div id="popup" style="display: none;" class="modal"> 
+   <?php echo $this->getChildHtml('popup-content') ?>
+   
+   <?php
+    $blockObj= $block->getLayout()->createBlock('Ambab\EmiCalc\Block\Catalog\Product\EmiPrice');
+    $blockView= $block->getLayout()->createBlock('Ambab\EmiCalc\Block\Catalog\Product\View');
+    $grandTotal=$blockObj->getSubtotal();
+    $EnableEmi = $blockView->canShowBlock();
+    ?>
+    <div id="element" class="collapsibleContainer" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
+        <?php 
+            $bankname=$blockObj->getBankName();
+            foreach ($bankname as $namedata) { 
+            $name = $namedata['Bank_Name'];
+        ?>
+        <div data-role="collapsible" class="collapsibleTab">
+            <div data-role="trigger" class="titlediv">
+                <p class="titleheader"><?php echo $name; ?></p>
+            </div>
+        </div>
+        <div data-role="content" class="collapsibleContent">
+            <table class="table tablecontent">
+                <thead>
+                    <tr>
+                        <th>Emi Plan</th>
+                        <th>ROI</th>
+                        <th>Intrest(pa)</th>
+                        <th>Total Price</th>
+                        <th>Select Plan</th>
+                    </tr>
+                </thead>
+                <?php
+                    $bankdata=$blockObj->getBankDetails($name);
+                    foreach($bankdata as $data)
+                    {
+                        $emiamtarray=$blockObj->Emicalculation($grandTotal,$data['Emi_Plan'],$data['Intrest']);
+                ?>
+                <tbody>
+                    <tr>
+                        <td><?php echo round($emiamtarray[0]).' Rs'.' x '.$data['Emi_Plan'].' Months'; ?></td>
+                        <td><?php echo $data['Intrest'].'%'; ?></td>
+                        <td><?php echo ceil($emiamtarray[2]).' Rs'; ?></td>
+                        <td><?php echo ceil($emiamtarray[1]).' Rs'; ?></td>
+                        <td>
+                            <button type="submit">Select</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <?php   
+                    }
+                ?>
+            </table>
+        </div>
+        <?php   
+            }
+        ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var Emiphtml = <?php echo json_encode($EnableEmi); ?>
+</script>
