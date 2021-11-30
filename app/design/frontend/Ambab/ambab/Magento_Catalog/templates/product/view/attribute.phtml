@@ -7,9 +7,11 @@ $quantity = $productStock->getQty();
 
 // get product sku
 $sku = $_product->getSku();
-if($sku == 'simple')
+if($_product->getTypeId() == 'simple')
 {
-    $quantity = $blockObj->getProductSalableQty($sku);
+    $quantity = $blockObj->getProductSalableQty($sku). ' left';
+}else{
+    $quantity="Available";
 }
 
 
@@ -54,7 +56,7 @@ if ($_attributeType && $_attributeType == 'text') {
 
         <div class="value" <?= /* @noEscape / $_attributeAddAttribute ?>><?= / @noEscape */ $_attributeValue ?>></div><br>
         
-        <strong style="color:red;"><?php echo $quantity.' left' ?></strong>
+        <strong style="color:green;"><?php echo $quantity; ?></strong>
         <br>
     
         <?php if($_product->gethot()) : ?>

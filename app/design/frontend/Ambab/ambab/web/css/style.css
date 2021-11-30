@@ -19,5 +19,8 @@
 .listing-attr{
     color: red;
     font-size: 19px;
+    
+}
+.listing-attr::after{
     content: "\1F525";
 }
