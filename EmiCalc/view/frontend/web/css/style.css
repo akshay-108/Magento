@@ -1,0 +1,19 @@
+.collapsibleContainer {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+.collapsibleTab .titleheader{
+  background: #eee;
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: bold; 
+}
+.collapsibleTab{
+  border-bottom: 1px solid #ddd;
+}
+.titleheader {
+  margin-top: 0rem;
+  margin-bottom: 0 !important;
+}
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Ambab_EmiCalc::emicalc" title="Emi Calculator" module="Ambab_EmiCalc" 
+        sortOrder="51" 
+        resource="Ambab_EmiCalc::emicalc"/>
+        
+        <add id="Ambab_EmiCalc::addbank_emidetails" 
+        title="Add Bank Details" 
+        module="Ambab_EmiCalc" 
+        sortOrder="60"
+        action="grid/grid/index" 
+        resource="Ambab_EmiCalc::menu_item" parent="Ambab_EmiCalc::emicalc"/>
+
+        <add id="Ambab_EmiCalc::emicalc_configuration" title="Configuration" 
+        module="Ambab_EmiCalc" 
+        sortOrder="99" 
+        parent="Ambab_EmiCalc::emicalc" 
+        action="adminhtml/system_config/edit/section/emied" resource="Ambab_EmiCalc::emicalc_configuration"/>
+    </menu>
+</config>
