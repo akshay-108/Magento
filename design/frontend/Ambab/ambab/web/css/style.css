@@ -16,11 +16,19 @@
     font-size: 19px;
     padding: 10px;
 }
-.listing-attr{
-    color: red;
-    font-size: 19px;
-    
-}
-.listing-attr::after{
+.listing-attr::before{
     content: "\1F525";
+    position: absolute;
+    left: 18px;
+    top: -319px;
+    z-index: 1;
+    font-size: 25px;
+}
+.listing-attr-pdp::before{
+    content: "\1F525";
+    position: absolute;
+    left: 89px;
+    top: -911px;
+    z-index: 1;
+    font-size: 79px;
 }
