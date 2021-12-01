@@ -29,13 +29,11 @@ class Custom
     {
         try {
             $order = $this->orderRepository->get($value);
-            
-            // get image url
-           
-            // $shippingInfo=[];
+
             $collection=[];
             foreach ($order->getAllItems() as $item) 
             {
+                // get image url
                 $product=$this->productRepository->getByid($item->getProductId());
                 $store = $this->_storeManager->getStore();
                 $imageURL = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getImage();
