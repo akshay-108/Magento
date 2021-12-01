@@ -76,7 +76,7 @@ $_helper = $block->getData('outputHelper');
 
                         <!-- show attribute set -->
                         <?php if($_product->gethot()) : ?>
-                            <strong class="listing-attr">This is hot product</strong>
+                            <strong class="listing-attr" title="This is hot product"></strong>
                         <?php endif; ?>
 
                         <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
